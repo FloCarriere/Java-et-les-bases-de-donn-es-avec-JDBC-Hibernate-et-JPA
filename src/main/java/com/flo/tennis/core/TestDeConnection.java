@@ -2,6 +2,8 @@ package com.flo.tennis.core;
 
 import java.sql.*;
 
+/*modele connection à un serveur de base de données */
+
 public class TestDeConnection {
     public static void main(String... args){
         Connection conn = null;
@@ -9,7 +11,7 @@ public class TestDeConnection {
 
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tennis?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=Europe/Paris","root","root");
 
-            PreparedStatement preparedStatement=conn.prepareStatement("update joueur set NOM = ?, PRENOM = ? WHERE ID = ?");
+            PreparedStatement preparedStatement=conn.prepareStatement("update joueur set NOM = ?, PRENOM = ? WHERE ID = ?");//
             long identifiant=24L;
             String nom = "Errani";
             String prenom = "Sara";
