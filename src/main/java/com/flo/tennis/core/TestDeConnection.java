@@ -3,6 +3,8 @@ package com.flo.tennis.core;
 import com.flo.tennis.core.entity.Tournoi;
 import com.flo.tennis.core.repository.JoueurRepositoryImpl;
 import com.flo.tennis.core.repository.TournoiRepositoryImpl;
+import com.flo.tennis.core.service.JoueurService;
+import com.flo.tennis.core.service.TournoiService;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import com.flo.tennis.core.entity.Joueur;
 
@@ -13,16 +15,18 @@ import java.util.List;
 
 public class TestDeConnection {
     public static void main(String... args){
-        JoueurRepositoryImpl joueurRepository = new JoueurRepositoryImpl();
-        TournoiRepositoryImpl tournoiRepository = new TournoiRepositoryImpl();
+        //JoueurRepositoryImpl joueurRepository = new JoueurRepositoryImpl();
+        //TournoiRepositoryImpl tournoiRepository = new TournoiRepositoryImpl();
 
+        JoueurService joueurService = new JoueurService();
+        TournoiService tournoiService = new TournoiService();
         //************************ Joueur ************************
         /*Joueur  bartoli = joueurRepository.getById(21L);
         System.out.println(bartoli.getPrenom() +" " + bartoli.getNom());
         */
-        /*Joueur sampras = joueurRepository.getById(52L);
-        sampras.setPrenom("Pete");
-        */
+
+        Joueur sampras = joueurService.getJoueurById(55L);
+        Tournoi iw = tournoiService.getTournoiById(8L);
 
         //joueurRepository.delete(52L);
 
@@ -42,6 +46,16 @@ public class TestDeConnection {
         joueurRepository.create(sampras);
          */
 
+        //create joueur avec un service
+        /*Joueur sampras = new Joueur();
+        sampras.setNom("Sampras");
+        sampras.setPrenom("Pete");
+        sampras.setSexe('H');
+        joueurService.createJoueur(sampras);
+        */
+        System.out.println("Le nom du joueur lu est "+sampras.getNom());
+        System.out.println("Le nom du tournoi lu est "+iw.getNom());
+
         //************************ Tournoi ************************
         //create tournoi
         /*Tournoi iw = new Tournoi();
@@ -54,11 +68,10 @@ public class TestDeConnection {
          */
 
         //update tournoi
-        Tournoi wi = tournoiRepository.getById(3L);
+        /*Tournoi wi = tournoiRepository.getById(3L);
         wi.setCode("WI");
         tournoiRepository.update(wi);
-
-
+        */
 
         //tournoiRepository.delete(6L);
 
@@ -67,7 +80,16 @@ public class TestDeConnection {
         for(Tournoi tournoi : Liste){
             System.out.println(tournoi.getCode() +" "+ tournoi.getNom());
         }*/
+        //exemple de génération de liste des tournois avec une seule ligne de code
+        //tournoiRepository.list().stream().forEach(tournoi -> System.out.println("Tournoi n° : "+ tournoi.getId() + ", nom : "+ tournoi.getNom() + ", CODE " +tournoi.getCode()));
 
+        //create tournoi avec un service
+        /*Tournoi iw = new Tournoi();
+        iw.setNom("Indian Wells");
+        iw.setCode("IW");
+        tournoiService.createTournoi(iw);
+
+         */
     }
 }
 
