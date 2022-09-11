@@ -2,40 +2,36 @@ package com.flo.tennis.core.repository;
 
 import com.flo.tennis.core.DataSourceProvider;
 import com.flo.tennis.core.entity.Joueur;
-import com.mysql.cj.jdbc.MysqlDataSource;
+import com.flo.tennis.core.entity.Tournoi;
 
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JoueurRepositoryImpl {
+public class TournoiRepositoryImpl {
 
-    public void create(Joueur joueur){
+    public void create(Tournoi tournoi){
         Connection conn = null;
         try {
             DataSource dataSource = DataSourceProvider.getSingleDataSourceInstance();
 
             conn = dataSource.getConnection();
 
-            //conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tennis?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=Europe/Paris","root","root");
+            PreparedStatement preparedStatement=conn.prepareStatement("insert into tournoi (NOM, CODE) values (?, ?)", Statement.RETURN_GENERATED_KEYS);//
 
-
-            PreparedStatement preparedStatement=conn.prepareStatement("insert into joueur (NOM, PRENOM, SEXE) values (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);//
-
-            preparedStatement.setString(1, joueur.getNom());
-            preparedStatement.setString(2, joueur.getPrenom());
-            preparedStatement.setString(3, joueur.getSexe().toString());
+            preparedStatement.setString(1, tournoi.getNom());
+            preparedStatement.setString(2, tournoi.getCode());
 
             preparedStatement.executeUpdate();
 
             ResultSet rs = preparedStatement.getGeneratedKeys();
 
             if (rs.next()){
-                joueur.setId(rs.getLong(1));
+                tournoi.setId(rs.getLong(1));
             }
 
-            System.out.println("Joueur créé");
+            System.out.println("Tournoi créé");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -58,26 +54,22 @@ public class JoueurRepositoryImpl {
 
     }
 
-    public void update(Joueur joueur){
+    public void update(Tournoi tournoi){
         Connection conn = null;
         try {
             DataSource dataSource = DataSourceProvider.getSingleDataSourceInstance();
 
             conn = dataSource.getConnection();
 
-            //conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tennis?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=Europe/Paris","root","root");
+            PreparedStatement preparedStatement=conn.prepareStatement("update tournoi set NOM = ?, CODE = ? where id= ?");//
 
-
-            PreparedStatement preparedStatement=conn.prepareStatement("update joueur set NOM = ?, PRENOM = ?, SEXE = ? where id= ?");//
-
-            preparedStatement.setString(1, joueur.getNom());
-            preparedStatement.setString(2, joueur.getPrenom());
-            preparedStatement.setString(3, joueur.getSexe().toString());
-            preparedStatement.setLong(4, joueur.getId());
+            preparedStatement.setString(1, tournoi.getNom());
+            preparedStatement.setString(2, tournoi.getCode());
+            preparedStatement.setLong(3, tournoi.getId());
 
             preparedStatement.executeUpdate();
 
-            System.out.println("Joueur modifié");
+            System.out.println("Tournoi modifié");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -107,16 +99,13 @@ public class JoueurRepositoryImpl {
 
             conn = dataSource.getConnection();
 
-            //conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tennis?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=Europe/Paris","root","root");
-
-
-            PreparedStatement preparedStatement=conn.prepareStatement("delete from joueur where id= ?");//
+            PreparedStatement preparedStatement=conn.prepareStatement("delete from tournoi where id= ?");//
 
             preparedStatement.setLong(1, id);
 
             preparedStatement.executeUpdate();
 
-            System.out.println("Joueur supprimé");
+            System.out.println("Tournoi supprimé");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -139,32 +128,28 @@ public class JoueurRepositoryImpl {
 
     }
 
-    public Joueur getById(Long id){
+    public Tournoi getById(Long id){
         Connection conn = null;
-        Joueur joueur = null;
+        Tournoi tournoi = null;
         try {
             DataSource dataSource = DataSourceProvider.getSingleDataSourceInstance();
 
             conn = dataSource.getConnection();
 
-            //conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tennis?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=Europe/Paris","root","root");
-
-
-            PreparedStatement preparedStatement=conn.prepareStatement("select nom, prenom, sexe from joueur where id= ?");//
+            PreparedStatement preparedStatement=conn.prepareStatement("select nom, code from tournoi where id= ?");//
 
             preparedStatement.setLong(1, id);
 
             ResultSet rs = preparedStatement.executeQuery();
 
             if (rs.next()){
-                joueur = new Joueur();
-                joueur.setId(id);
-                joueur.setNom(rs.getString("NOM"));
-                joueur.setPrenom(rs.getString("PRENOM"));
-                joueur.setSexe(rs.getString("SEXE").charAt(0));
+                tournoi = new Tournoi();
+                tournoi.setId(id);
+                tournoi.setNom(rs.getString("NOM"));
+                tournoi.setCode(rs.getString("CODE"));
             }
 
-            System.out.println("Joueur lu");
+            System.out.println("Tournoi lu");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -184,13 +169,13 @@ public class JoueurRepositoryImpl {
                 e.printStackTrace();
             }
         }
-        return joueur;
+        return tournoi;
 
     }
 
-    public List<Joueur> list(){
+    public List<Tournoi> list(){
         Connection conn = null;
-        List<Joueur> joueurs = new ArrayList<>();
+        List<Tournoi> tournois = new ArrayList<>();
 
         try {
 
@@ -198,23 +183,19 @@ public class JoueurRepositoryImpl {
 
             conn = dataSource.getConnection();
 
-            //conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tennis?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=Europe/Paris","root","root");
-
-
-            PreparedStatement preparedStatement=conn.prepareStatement("select id, nom, prenom, sexe from joueur ");//
+            PreparedStatement preparedStatement=conn.prepareStatement("select id, nom, code from tournoi ");//
 
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()){
-                Joueur joueur = new Joueur();
-                joueur.setId(rs.getLong("ID"));
-                joueur.setNom(rs.getString("NOM"));
-                joueur.setPrenom(rs.getString("PRENOM"));
-                joueur.setSexe(rs.getString("SEXE").charAt(0));
-                joueurs.add(joueur);
+                Tournoi tournoi = new Tournoi();
+                tournoi.setId(rs.getLong("ID"));
+                tournoi.setNom(rs.getString("NOM"));
+                tournoi.setCode(rs.getString("CODE"));
+                tournois.add(tournoi);
             }
 
-            System.out.println("Joueurs lus");
+            System.out.println("Tournoi lus");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -234,7 +215,7 @@ public class JoueurRepositoryImpl {
                 e.printStackTrace();
             }
         }
-        return joueurs;
+        return tournois;
 
     }
 }
