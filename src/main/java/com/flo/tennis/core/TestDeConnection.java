@@ -1,12 +1,12 @@
 package com.flo.tennis.core;
 
-import com.flo.tennis.core.entity.Tournoi;
+import com.flo.tennis.core.entity.*;
 import com.flo.tennis.core.repository.JoueurRepositoryImpl;
 import com.flo.tennis.core.repository.TournoiRepositoryImpl;
 import com.flo.tennis.core.service.JoueurService;
+import com.flo.tennis.core.service.MatchService;
 import com.flo.tennis.core.service.TournoiService;
 import com.mysql.cj.jdbc.MysqlDataSource;
-import com.flo.tennis.core.entity.Joueur;
 
 import java.sql.*;
 import java.util.List;
@@ -15,18 +15,46 @@ import java.util.List;
 
 public class TestDeConnection {
     public static void main(String... args){
+        MatchService matchService = new MatchService();
+
+        Match match = new Match();
+        Score score = new Score();
+        score.setSet1((byte)3);
+        score.setSet2((byte)4);
+        score.setSet3((byte)6);
+        match.setScore(score);
+        score.setMatch(match);
+
+        Joueur federer = new Joueur();
+        federer.setId(32L);
+        Joueur murray = new Joueur();
+        murray.setId(34L);
+        match.setVainqueur(federer);
+        match.setFinaliste(murray);
+
+        Epreuve epreuve = new Epreuve();
+        epreuve.setId(10L);
+        match.setEpreuve(epreuve);
+
+        matchService.EnregistrerNouveauMatch(match);
+
+        System.out.println("L'identifiant du match créé est "+match.getId());
+
+
+
+
         //JoueurRepositoryImpl joueurRepository = new JoueurRepositoryImpl();
         //TournoiRepositoryImpl tournoiRepository = new TournoiRepositoryImpl();
 
-        JoueurService joueurService = new JoueurService();
-        TournoiService tournoiService = new TournoiService();
+        //JoueurService joueurService = new JoueurService();
+        //TournoiService tournoiService = new TournoiService();
         //************************ Joueur ************************
         /*Joueur  bartoli = joueurRepository.getById(21L);
         System.out.println(bartoli.getPrenom() +" " + bartoli.getNom());
         */
 
-        Joueur sampras = joueurService.getJoueurById(55L);
-        Tournoi iw = tournoiService.getTournoiById(8L);
+        //Joueur sampras = joueurService.getJoueurById(55L);
+        //Tournoi iw = tournoiService.getTournoiById(8L);
 
         //joueurRepository.delete(52L);
 
@@ -53,8 +81,8 @@ public class TestDeConnection {
         sampras.setSexe('H');
         joueurService.createJoueur(sampras);
         */
-        System.out.println("Le nom du joueur lu est "+sampras.getNom());
-        System.out.println("Le nom du tournoi lu est "+iw.getNom());
+        //System.out.println("Le nom du joueur lu est "+sampras.getNom());
+        //System.out.println("Le nom du tournoi lu est "+iw.getNom());
 
         //************************ Tournoi ************************
         //create tournoi
