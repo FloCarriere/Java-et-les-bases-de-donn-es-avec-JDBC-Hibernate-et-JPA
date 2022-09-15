@@ -1,8 +1,11 @@
 package com.flo.tennis.core.repository;
 
 import com.flo.tennis.core.DataSourceProvider;
+import com.flo.tennis.core.HibernateUtil;
 import com.flo.tennis.core.entity.Joueur;
 import com.mysql.cj.jdbc.MysqlDataSource;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -140,49 +143,24 @@ public class JoueurRepositoryImpl {
     }
 
     public Joueur getById(Long id){
-        Connection conn = null;
         Joueur joueur = null;
+        Session session =null;
+
         try {
-            DataSource dataSource = DataSourceProvider.getSingleDataSourceInstance();
 
-            conn = dataSource.getConnection();
-
-            //conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tennis?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=Europe/Paris","root","root");
-
-
-            PreparedStatement preparedStatement=conn.prepareStatement("select nom, prenom, sexe from joueur where id= ?");//
-
-            preparedStatement.setLong(1, id);
-
-            ResultSet rs = preparedStatement.executeQuery();
-
-            if (rs.next()){
-                joueur = new Joueur();
-                joueur.setId(id);
-                joueur.setNom(rs.getString("NOM"));
-                joueur.setPrenom(rs.getString("PRENOM"));
-                joueur.setSexe(rs.getString("SEXE").charAt(0));
-            }
-
+            session = HibernateUtil.getSessionFactory().openSession();
+            joueur=session.get(Joueur.class, id);
             System.out.println("Joueur lu");
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            try {
-                if(conn!=null) conn.rollback();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
+        }catch (Throwable t){
+            t.printStackTrace();
         }
 
         finally {
-            try {
-                if (conn!=null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if(session != null){
+                session.close();
             }
+
         }
         return joueur;
 
