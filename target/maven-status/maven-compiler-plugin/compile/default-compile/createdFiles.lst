@@ -1,0 +1,15 @@
+com\flo\tennis\core\DataSourceProvider.class
+com\flo\tennis\core\repository\MatchRepositoryImpl.class
+com\flo\tennis\core\service\MatchService.class
+com\flo\tennis\core\service\TournoiService.class
+com\flo\tennis\core\entity\Epreuve.class
+com\flo\tennis\core\entity\Tournoi.class
+com\flo\tennis\core\repository\ScoreRepositoryImpl.class
+com\flo\tennis\core\repository\TournoiRepositoryImpl.class
+com\flo\tennis\core\HibernateUtil.class
+com\flo\tennis\core\repository\JoueurRepositoryImpl.class
+com\flo\tennis\core\service\JoueurService.class
+com\flo\tennis\core\entity\Joueur.class
+com\flo\tennis\core\entity\Match.class
+com\flo\tennis\core\entity\Score.class
+com\flo\tennis\core\TestDeConnection.class

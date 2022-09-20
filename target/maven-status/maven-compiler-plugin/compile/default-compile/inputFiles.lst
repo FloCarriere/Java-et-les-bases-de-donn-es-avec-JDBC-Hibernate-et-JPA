@@ -1,0 +1,15 @@
+C:\Users\fcarr\IdeaProjects\tennis\src\main\java\com\flo\tennis\core\entity\Epreuve.java
+C:\Users\fcarr\IdeaProjects\tennis\src\main\java\com\flo\tennis\core\entity\Tournoi.java
+C:\Users\fcarr\IdeaProjects\tennis\src\main\java\com\flo\tennis\core\HibernateUtil.java
+C:\Users\fcarr\IdeaProjects\tennis\src\main\java\com\flo\tennis\core\TestDeConnection.java
+C:\Users\fcarr\IdeaProjects\tennis\src\main\java\com\flo\tennis\core\repository\ScoreRepositoryImpl.java
+C:\Users\fcarr\IdeaProjects\tennis\src\main\java\com\flo\tennis\core\repository\JoueurRepositoryImpl.java
+C:\Users\fcarr\IdeaProjects\tennis\src\main\java\com\flo\tennis\core\DataSourceProvider.java
+C:\Users\fcarr\IdeaProjects\tennis\src\main\java\com\flo\tennis\core\entity\Match.java
+C:\Users\fcarr\IdeaProjects\tennis\src\main\java\com\flo\tennis\core\entity\Joueur.java
+C:\Users\fcarr\IdeaProjects\tennis\src\main\java\com\flo\tennis\core\service\TournoiService.java
+C:\Users\fcarr\IdeaProjects\tennis\src\main\java\com\flo\tennis\core\repository\MatchRepositoryImpl.java
+C:\Users\fcarr\IdeaProjects\tennis\src\main\java\com\flo\tennis\core\entity\Score.java
+C:\Users\fcarr\IdeaProjects\tennis\src\main\java\com\flo\tennis\core\repository\TournoiRepositoryImpl.java
+C:\Users\fcarr\IdeaProjects\tennis\src\main\java\com\flo\tennis\core\service\MatchService.java
+C:\Users\fcarr\IdeaProjects\tennis\src\main\java\com\flo\tennis\core\service\JoueurService.java

@@ -15,7 +15,12 @@ import java.util.List;
 
 public class TestDeConnection {
     public static void main(String... args){
+
+
+        /*
         MatchService matchService = new MatchService();
+
+
 
         Match match = new Match();
         Score score = new Score();
@@ -39,6 +44,7 @@ public class TestDeConnection {
         matchService.EnregistrerNouveauMatch(match);
 
         System.out.println("L'identifiant du match créé est "+match.getId());
+        */
 
 
 
