@@ -17,4 +17,8 @@ public class JoueurService {
     public Joueur getJoueurById(Long id){
         return joueurRepository.getById(id);
     }
+
+    public void renomme(Long id, String nouveauNom){
+        joueurRepository.renomme(id, nouveauNom);
+    }
 }
