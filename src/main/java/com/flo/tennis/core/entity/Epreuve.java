@@ -1,9 +1,16 @@
 package com.flo.tennis.core.entity;
 
+import javax.persistence.*;
+
+@Entity
 public class Epreuve {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Short annee;
+    @Transient
     private Tournoi tournoi;
+    @Column(name = "TYPE_EPREUVE")
     private Character typeEpreuve;
 
     public Character getTypeEpreuve() {

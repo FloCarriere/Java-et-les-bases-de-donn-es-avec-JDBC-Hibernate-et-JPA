@@ -1,8 +1,10 @@
 package com.flo.tennis.core.repository;
 
 import com.flo.tennis.core.DataSourceProvider;
+import com.flo.tennis.core.HibernateUtil;
 import com.flo.tennis.core.entity.Joueur;
 import com.flo.tennis.core.entity.Score;
+import org.hibernate.Session;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -74,5 +76,15 @@ public class ScoreRepositoryImpl {
 
     }
 
+    public Score getById(Long id){
+        Score score = null;
+        Session session =null;
 
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        score=session.get(Score.class, id);
+        System.out.println("Score lu");
+
+        return score;
+
+    }
 }
