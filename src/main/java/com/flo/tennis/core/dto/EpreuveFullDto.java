@@ -1,17 +1,12 @@
-package com.flo.tennis.core.entity;
+package com.flo.tennis.core.dto;
 
-import javax.persistence.*;
+import com.flo.tennis.core.entity.Tournoi;
 
-@Entity
-public class Epreuve {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class EpreuveFullDto {
+
     private Long id;
     private Short annee;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_TOURNOI")
-    private Tournoi tournoi;
-    @Column(name = "TYPE_EPREUVE")
+    private TournoiDto tournoi;
     private Character typeEpreuve;
 
     public Character getTypeEpreuve() {
@@ -38,11 +33,11 @@ public class Epreuve {
         this.annee = annee;
     }
 
-    public Tournoi getTournoi() {
+    public TournoiDto getTournoi() {
         return tournoi;
     }
 
-    public void setTournoi(Tournoi tournoi) {
+    public void setTournoi(TournoiDto tournoi) {
         this.tournoi = tournoi;
     }
 }
