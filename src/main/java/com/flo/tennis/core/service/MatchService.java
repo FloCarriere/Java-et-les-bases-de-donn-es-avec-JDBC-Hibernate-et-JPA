@@ -1,10 +1,7 @@
 package com.flo.tennis.core.service;
 
 import com.flo.tennis.core.HibernateUtil;
-import com.flo.tennis.core.dto.EpreuveLightDto;
-import com.flo.tennis.core.dto.JoueurDto;
-import com.flo.tennis.core.dto.MatchDto;
-import com.flo.tennis.core.dto.TournoiDto;
+import com.flo.tennis.core.dto.*;
 import com.flo.tennis.core.entity.Epreuve;
 import com.flo.tennis.core.entity.Match;
 import com.flo.tennis.core.repository.MatchRepositoryImpl;
@@ -55,6 +52,20 @@ public class MatchService {
             joueurVainqueurDto.setPrenom(match.getVainqueur().getPrenom());
             joueurVainqueurDto.setSexe(match.getVainqueur().getSexe());
             dto.setVainqueur(joueurVainqueurDto);
+
+            EpreuveFullDto epreuveDto = new EpreuveFullDto();
+            epreuveDto.setId(match.getEpreuve().getId());
+            epreuveDto.setAnnee(match.getEpreuve().getAnnee());
+            epreuveDto.setTypeEpreuve(match.getEpreuve().getTypeEpreuve());
+            TournoiDto tournoiDto=new TournoiDto();
+            tournoiDto.setId(match.getEpreuve().getTournoi().getId());
+            tournoiDto.setNom(match.getEpreuve().getTournoi().getNom());
+            tournoiDto.setCode(match.getEpreuve().getTournoi().getCode());
+            epreuveDto.setTournoi(tournoiDto);
+
+            dto.setEpreuve(epreuveDto);
+
+
             tx.commit();
 
         }catch (Exception e){
