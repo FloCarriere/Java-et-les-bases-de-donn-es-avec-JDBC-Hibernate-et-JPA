@@ -3,6 +3,7 @@ package com.flo.tennis.core.service;
 import com.flo.tennis.core.HibernateUtil;
 import com.flo.tennis.core.dto.*;
 import com.flo.tennis.core.entity.Epreuve;
+import com.flo.tennis.core.entity.Joueur;
 import com.flo.tennis.core.entity.Match;
 import com.flo.tennis.core.repository.MatchRepositoryImpl;
 import com.flo.tennis.core.repository.ScoreRepositoryImpl;
@@ -65,6 +66,17 @@ public class MatchService {
 
             dto.setEpreuve(epreuveDto);
 
+            ScoreFullDto scoreDto = new ScoreFullDto();
+            scoreDto.setId(match.getScore().getId());
+
+            scoreDto.setSet1(match.getScore().getSet1());
+            scoreDto.setSet2(match.getScore().getSet2());
+            scoreDto.setSet3(match.getScore().getSet3());
+            scoreDto.setSet4(match.getScore().getSet4());
+            scoreDto.setSet5(match.getScore().getSet5());
+
+            dto.setScore(scoreDto);
+            scoreDto.setMatch(dto);
 
             tx.commit();
 
@@ -84,4 +96,44 @@ public class MatchService {
 
         return dto;
     }
+
+    public void tapisVert(Long id) {
+        Session session = null;
+        Transaction tx = null;
+        Match match = null;
+
+        try {
+
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            tx = session.beginTransaction();
+            match = matchRepository.getById(id);
+
+            Joueur ancienVainqueur = match.getVainqueur();
+            match.setVainqueur(match.getFinaliste());
+            match.setFinaliste(ancienVainqueur);
+
+            match.getScore().setSet1((byte)0);
+            match.getScore().setSet2((byte)0);
+            match.getScore().setSet3((byte)0);
+            match.getScore().setSet4((byte)0);
+            match.getScore().setSet5((byte)0);
+
+
+
+            tx.commit();
+
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+
+    }
+
+
 }
