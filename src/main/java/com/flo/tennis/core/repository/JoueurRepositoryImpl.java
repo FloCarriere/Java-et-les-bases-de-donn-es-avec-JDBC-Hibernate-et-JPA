@@ -7,6 +7,7 @@ import com.mysql.cj.jdbc.MysqlDataSource;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -86,52 +87,11 @@ public class JoueurRepositoryImpl {
 
     }
 
-    public List<Joueur> list(){
-        Connection conn = null;
-        List<Joueur> joueurs = new ArrayList<>();
-
-        try {
-
-           DataSource dataSource = DataSourceProvider.getSingleDataSourceInstance();
-
-            conn = dataSource.getConnection();
-
-            //conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tennis?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=Europe/Paris","root","root");
-
-
-            PreparedStatement preparedStatement=conn.prepareStatement("select id, nom, prenom, sexe from joueur ");//
-
-            ResultSet rs = preparedStatement.executeQuery();
-
-            while (rs.next()){
-                Joueur joueur = new Joueur();
-                joueur.setId(rs.getLong("ID"));
-                joueur.setNom(rs.getString("NOM"));
-                joueur.setPrenom(rs.getString("PRENOM"));
-                joueur.setSexe(rs.getString("SEXE").charAt(0));
-                joueurs.add(joueur);
-            }
-
-            System.out.println("Joueurs lus");
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            try {
-                if(conn!=null) conn.rollback();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-        }
-
-        finally {
-            try {
-                if (conn!=null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+    public List<Joueur> list(char sexe){
+        Session session=HibernateUtil.getSessionFactory().getCurrentSession();
+        Query<Joueur> query = session.createQuery("select j from Joueur j where j.sexe=?0", Joueur.class);
+        query.setParameter(0, sexe);
+        List<Joueur>joueurs = query.getResultList();
         return joueurs;
 
     }
