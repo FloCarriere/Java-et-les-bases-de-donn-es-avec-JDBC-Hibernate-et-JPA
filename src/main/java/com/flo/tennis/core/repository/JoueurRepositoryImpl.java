@@ -93,6 +93,6 @@ public class JoueurRepositoryImpl {
         query.setParameter(0, sexe);
         List<Joueur>joueurs = query.getResultList();
         return joueurs;
-
     }
+
 }
