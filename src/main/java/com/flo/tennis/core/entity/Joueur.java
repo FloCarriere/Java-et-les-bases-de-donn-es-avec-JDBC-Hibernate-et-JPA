@@ -1,8 +1,15 @@
 package com.flo.tennis.core.entity;
 
 
-import javax.persistence.*;
+import org.hibernate.annotations.NamedQuery;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@NamedQuery(query = "select j from Joueur j where j.sexe=?0", name = "given_sexe")
+@NamedQuery(query = "select j from Joueur j where j.nom=?0", name = "given_nom")
 @Entity(name="Joueur")
 public class Joueur {
 
