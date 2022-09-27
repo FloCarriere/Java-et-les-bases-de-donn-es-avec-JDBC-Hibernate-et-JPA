@@ -5,6 +5,7 @@ import com.flo.tennis.core.HibernateUtil;
 import com.flo.tennis.core.entity.Epreuve;
 import com.flo.tennis.core.entity.Joueur;
 import com.flo.tennis.core.entity.Match;
+import com.flo.tennis.core.entity.Tournoi;
 import org.hibernate.Session;
 
 import javax.sql.DataSource;
@@ -25,6 +26,15 @@ public class MatchRepositoryImpl {
         System.out.println("Match lu");
 
         return match;
+    }
+
+    public void delete(Long id){
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Match match=session.get(Match.class, id);
+        session.delete(match);
+        System.out.println("Match supprimé");
+
     }
 
 }

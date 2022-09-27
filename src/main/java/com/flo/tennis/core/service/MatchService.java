@@ -182,5 +182,33 @@ public class MatchService {
         }
     }
 
+    public void deleteMatch(Long id){
+
+        Session session = null;
+        Transaction tx = null;
+        Match match = null;
+
+        try {
+
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            tx = session.beginTransaction();
+
+            matchRepository.delete(id);
+
+            tx.commit();
+
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+
+    }
+
 
 }

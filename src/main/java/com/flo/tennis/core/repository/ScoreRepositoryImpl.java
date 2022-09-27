@@ -3,6 +3,7 @@ package com.flo.tennis.core.repository;
 import com.flo.tennis.core.DataSourceProvider;
 import com.flo.tennis.core.HibernateUtil;
 import com.flo.tennis.core.entity.Joueur;
+import com.flo.tennis.core.entity.Match;
 import com.flo.tennis.core.entity.Score;
 import org.hibernate.Session;
 
@@ -85,6 +86,15 @@ public class ScoreRepositoryImpl {
         System.out.println("Score lu");
 
         return score;
+
+    }
+
+    public void delete(Long id){
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Score score=session.get(Score.class, id);
+        session.delete(score);
+        System.out.println("Score supprimé");
 
     }
 }

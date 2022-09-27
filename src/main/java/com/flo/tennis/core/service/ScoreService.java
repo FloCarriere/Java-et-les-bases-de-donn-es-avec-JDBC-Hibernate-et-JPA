@@ -3,6 +3,7 @@ package com.flo.tennis.core.service;
 import com.flo.tennis.core.HibernateUtil;
 import com.flo.tennis.core.dto.*;
 import com.flo.tennis.core.entity.Joueur;
+import com.flo.tennis.core.entity.Match;
 import com.flo.tennis.core.entity.Score;
 import com.flo.tennis.core.repository.JoueurRepositoryImpl;
 import com.flo.tennis.core.repository.ScoreRepositoryImpl;
@@ -88,6 +89,33 @@ public class ScoreService {
 
         }
         return dto;
+    }
+
+    public void deleteScore(Long id){
+
+        Session session = null;
+        Transaction tx = null;
+
+        try {
+
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            tx = session.beginTransaction();
+
+            scoreRepository.delete(id);
+
+            tx.commit();
+
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+
     }
 }
 
